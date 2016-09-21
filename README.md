@@ -51,6 +51,7 @@ Your team of developers have also figured out that in order to be able to popula
 7. Lots of template code! (Delete almost all of it)
 8. Go back to our storyboard and switch the `UITableViewController`'s class to our newly created subclass
 9. To make sure we've got everything hooked up right, add the following code to `viewDidLoad()` in `MovieTableViewController`:
+
 	```
 	self.title = "Reel Good!"
     self.tableView.backgroundColor = UIColor.blue
