@@ -32,7 +32,27 @@ Your team of developers have also figured out that in order to be able to popula
 
 ### Instructions
 
+#### 1. Storyboard Setup
+
 1. Open the project labeled `Tableviews_Part_1.xcodproj` and get familiar with the structure of the project
   - You'll notice that the project is divided into a few folders, and that your `Movie` and `Actor` Swift files are made for you, but are currently empty. The storyboard should also be blank. 
   - If you tried to run the project now, you'd simple see a black screen in your simulator, but you should be able to see a splash screen with the app's logo before that. 
-2. 
+2. Click on `Main.storyboard` to open the file in your main window.
+3. Add a `UITableviewController` by dragging it over into the editor window from the *Object Library* in the *Utilies Area*
+4. *Embed* a `UINavigationController` now (Editor > Embed In > Navigation Controller)
+  - Try running the project now
+  - **Is Initial View Controller**
+5. With the `UITableViewController` selected in the storyboard, take a look at the *Identity Inspector* in the *Utilities Area* 
+  - We'll need to change this to our own custom class 
+6. Create a new file (File > New File > Cocoa Touch Class)
+  - Named `MovieTableViewController`
+  - Subclass of `UITableviewController`
+  - Select the correct folder and group! 
+7. Lots of template code! (Delete almost all of it)
+8. Go back to our storyboard and switch the `UITableViewController`'s class to our newly created subclass
+9. To make sure we've got everything hooked up right, add the following code to `viewDidLoad()` in `MovieTableViewController`:
+	```
+	self.title = "Reel Good!"
+    self.tableView.backgroundColor = UIColor.blue
+    ```
+
