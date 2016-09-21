@@ -67,7 +67,9 @@
 				142842E01D920F3C007A1182 /* Tableviews_Part_1Tests */,
 				142842CA1D920F3C007A1182 /* Products */,
 			);
+			indentWidth = 4;
 			sourceTree = "<group>";
+			tabWidth = 4;
 		};
 		142842CA1D920F3C007A1182 /* Products */ = {
 			isa = PBXGroup;
