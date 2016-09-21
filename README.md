@@ -32,4 +32,7 @@ Your team of developers have also figured out that in order to be able to popula
 
 ### Instructions
 
-1. Open the project labeled 
+1. Open the project labeled `Tableviews_Part_1.xcodproj` and get familiar with the structure of the project
+  - You'll notice that the project is divided into a few folders, and that your `Movie` and `Actor` Swift files are made for you, but are currently empty. The storyboard should also be blank. 
+  - If you tried to run the project now, you'd simple see a black screen in your simulator, but you should be able to see a splash screen with the app's logo before that. 
+2. 
