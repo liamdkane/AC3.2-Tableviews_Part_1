@@ -25,7 +25,6 @@ class MovieTableViewController: UITableViewController {
             movieContainer.append(Movie(from: rawMovie))
         }
         movieData = movieContainer
-        print("Contents of movieData: \(movieData!)")
     }
 
     override func didReceiveMemoryWarning() {

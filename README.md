@@ -134,3 +134,11 @@ Because we can use subscripts to access members of an array, we use the `indexPa
 
 An `indexPath` has a `section` property and a `row` property. We know that there will only be 1 section total (because we set it to one in `numberOfSections:`) and that each row will correspond to a single movie object (thanks to `numberOfRowsInSection:`). So by looking at the `row` value of the `indexPath`, we can use that as the subscript value in the movies array.
 
+---
+
+#### 5. Resizing Cells
+Excellent! Reel Good absolutely adores our prototype. They only wished that they could see the movie poster art in their cells, and that the cells could expand to accomodate the text from the movie summary. Unfortunately, we tell them: 
+
+> [When working with table view cells, you cannot change the layout of the predefined content (for example, the textLabel, detailTextLabel, and imageView properties).](https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/WorkingwithSelf-SizingTableViewCells.html)
+
+But, this was just a prototype and now there's more to come in version 2!
