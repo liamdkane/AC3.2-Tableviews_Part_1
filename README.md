@@ -78,8 +78,59 @@ Otherwise, a test class and its functions are like any other class/function in S
 
 ---
 
-##### 3. Models and Tests
+#### 3. Models and Tests
 
 Fortunately for us, another member of our developer team working on the Reel Good project wrote out some tests on our models, `Movie` and `Actor`. Unfortunately... they didn't stage their changes in git for the actual parsing code for the model class. Not only that, they didn't save their local changes either! 
 
 What this means, is that we're going to have to reverse engineer a solution to parsing our data based on the tests that they had written. 
+
+---
+
+#### 4. Populating Cells
+Let's get rid of that blue background, shall we? 
+
+Ok, now that we have our database being properly parsed into objects we can use, let's display them in the tableview. 
+
+To understand how a tableview populates its cells, and what the table and cells look like (cell height, number of cells, header views, etc.), we need to look at two protocols that a `UITableViewController` conforms to: 
+
+1. `UITableViewDataSource` - *"The data source provides the table-view object with the information it needs to construct and modify a table view" - Apple Doc*
+2. `UITableViewDelegate` - *"Optional methods of the protocol allow the delegate to manage selections, configure section headings and footers, help to delete and reorder cells, and perform other actions." - Apple Doc*
+
+The methods of the `UITableViewDelegate` protocol are optional, but there are three required methods for `UITableViewDataSource`
+
+1. "numberOfSections": `numberOfSections(in tableView: UITableView) -> Int`
+2. "numberOfRows": `tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int`
+3. "cellForRow": `tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell`
+
+
+##### numberOfSections:
+Not too much to say here. Creating different sections can be useful if you have different types of cells or different sets of data to display. In our case, we're just going to set this to 1 for our small data set and one kind of cell
+
+##### numberOfRows:
+We don't know exactly how many rows of data we'll have. All we know is that each row will contain the data for a single Movie object. But really, this is where a tableview shines since it allows for an unknown amount of data to be displayed. In this case, we'd like to present as many Movies as we have in movieData array
+
+Here's a important thing to remember though, in the lifecycle of a tableview it is possible that the tableview will run the `numberOfRows` function before we have time to load data in our Movie array. In fact, we can't just leave it as `self.movie?.count` as it expects a non-optional `Int` value. But this is a perfect time to use the **nil coalescing** operator.
+
+All this operator says is that if the value of to the left of the `??` is nil, to use the value to the right of the operator instead. Functionally, it's equivalent to the ternary operator `?:`
+    
+    let numberOfMovies: Int = self.movieData?.count != nil ? self.movieData!.count : 0
+    let numberOfMovies: Int = self.movieData?.count ?? 0 // same as the above
+
+This is a nice shorthand for simple `nil` checking instead of having to use an `if-let` or `guard` statement
+
+##### cellForRow:
+For every type of cell you create, you'll need to define it's `cellIdentifier` property. The `cellIdentifier` will let `cellForRow` know which kind of cell it will `dequeue` for use. 
+
+Think of how many movies have been made since cinema began.. likely in the tens of thousands. If Reel Good wants us to display (potentially) all of these movies in this table, that's going to be a lot of `Movie` instances. And each of those instances is going to need its own cell, which itself is a couple of `UIView`s. The amount of memory needed to store and display all of that data is beyond what an iPhone could handle all at once. So instead, a tableview efficiently manages its cells by only creating as many as it needs to show on the screen at once. So if only 10 cells can be visible at a time on the screen, then only 10 cell exist in memory. 
+
+When you scroll up or down, behind the scenes, the table view takes the cell that just scrolled off screen and reuses it! That cell get the data of the next `Movie` object and gets placed at the bottom of the table. In that way, the views are rotated from top to bottom (or vice-versa) as needed. 
+
+##### Cell Styles
+
+There are a few built-in styles available to us, and we're going to use `subtitle` for this project. Thanks to the documentation, we know we have two text field for use: `textLabel` and `detailTextLabel`.
+
+How do we get the movie data from our array into each cell, in the proper order? 
+Because we can use subscripts to access members of an array, we use the `indexPath` passed into this function to find the right element to display.
+
+An `indexPath` has a `section` property and a `row` property. We know that there will only be 1 section total (because we set it to one in `numberOfSections:`) and that each row will correspond to a single movie object (thanks to `numberOfRowsInSection:`). So by looking at the `row` value of the `indexPath`, we can use that as the subscript value in the movies array.
+

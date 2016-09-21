@@ -9,11 +9,23 @@
 import UIKit
 
 class MovieTableViewController: UITableViewController {
-
+    // 1. Set up some variables and set the cellIdentifier
+    internal var movieData: [Movie]?
+    internal let rawMovieData: [[String : Any]] = movies
+    let cellIdentifier: String = "MovieTableViewCell"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Reel Good!"
-        self.tableView.backgroundColor = UIColor.blue
+//        self.tableView.backgroundColor = UIColor.blue
+        
+        // 2. parse our movie data and set it to our instance var
+        var movieContainer: [Movie] = []
+        for rawMovie in rawMovieData {
+            movieContainer.append(Movie(from: rawMovie))
+        }
+        movieData = movieContainer
+        print("Contents of movieData: \(movieData!)")
     }
 
     override func didReceiveMemoryWarning() {
@@ -24,24 +36,31 @@ class MovieTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        // We're only going to need 1 section for our limited data
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        // let's use the nil coalescing operator to guard against crashes in our tableview's early lifecycle
+        return self.movieData?.count ?? 0
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        // 3. Where did this cellIdentifier come from? 
+        // And why do we even need it? 
+        // And what about the cell style?
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
 
-        // Configure the cell...
+        // 4. And configure our cell
+        if let movieAtIndexPath: Movie = self.movieData?[indexPath.row] {
+            cell.textLabel?.text = "\(movieAtIndexPath.title as String) - \(movieAtIndexPath.year as Int)"
+            cell.detailTextLabel?.text = movieAtIndexPath.summary
+        }
 
         return cell
     }
-    */
+ 
 
     /*
     // MARK: - Navigation
