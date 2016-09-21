@@ -15,6 +15,7 @@
 		142842F21D920FF0007A1182 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142842F11D920FF0007A1182 /* Movie.swift */; };
 		142842F41D921000007A1182 /* Actor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142842F31D921000007A1182 /* Actor.swift */; };
 		142842F61D922C56007A1182 /* MovieTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142842F51D922C56007A1182 /* MovieTableViewController.swift */; };
+		142842F81D924C44007A1182 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142842F71D924C44007A1182 /* Data.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		142842F11D920FF0007A1182 /* Movie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Movie.swift; path = Models/Movie.swift; sourceTree = "<group>"; };
 		142842F31D921000007A1182 /* Actor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Actor.swift; sourceTree = "<group>"; };
 		142842F51D922C56007A1182 /* MovieTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MovieTableViewController.swift; path = "View Controllers/MovieTableViewController.swift"; sourceTree = "<group>"; };
+		142842F71D924C44007A1182 /* Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,7 +69,9 @@
 				142842E01D920F3C007A1182 /* Tableviews_Part_1Tests */,
 				142842CA1D920F3C007A1182 /* Products */,
 			);
+			indentWidth = 4;
 			sourceTree = "<group>";
+			tabWidth = 4;
 		};
 		142842CA1D920F3C007A1182 /* Products */ = {
 			isa = PBXGroup;
@@ -101,6 +105,7 @@
 		142842EE1D920FBA007A1182 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				142842F71D924C44007A1182 /* Data.swift */,
 				142842D01D920F3C007A1182 /* Main.storyboard */,
 				142842D31D920F3C007A1182 /* Assets.xcassets */,
 				142842D51D920F3C007A1182 /* LaunchScreen.storyboard */,
@@ -230,6 +235,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				142842F61D922C56007A1182 /* MovieTableViewController.swift in Sources */,
+				142842F81D924C44007A1182 /* Data.swift in Sources */,
 				142842CD1D920F3C007A1182 /* AppDelegate.swift in Sources */,
 				142842F21D920FF0007A1182 /* Movie.swift in Sources */,
 				142842F41D921000007A1182 /* Actor.swift in Sources */,

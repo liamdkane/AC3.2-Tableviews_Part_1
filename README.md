@@ -57,3 +57,29 @@ Your team of developers have also figured out that in order to be able to popula
     self.tableView.backgroundColor = UIColor.blue
     ```
 
+#### 2. Intro To Tests
+
+When you have very large development teams and large code bases, it's tough to make changes without some unintended side effect. What you might consider a small change to the code in a single file, can sometimes have far reaching consequence in some other very different part of an app. So, how can we ensure that changes we make don't break something elsewhere? 
+
+Testing. 
+
+Testing is simply writing code to make sure that other code works as intended. There are some very strong and developed opinions on how to test and reasons why testing should be done. Developers can be very split on the subject, but it certainly is wise to know what's possible with testing and why it adds value. 
+
+In testing, you take a known *input* and *assert* a particular *output* should happen. For example, in parsing Reel Good's data from their database we want to make sure that the data is formatted correctly for our app. It's possible that their database changes how it stores its data and it has an effect in our app because we can no longer parse it correctly. Testing is also very useful in another way: you know what the answer *should* be, so when something does break you already know the correct answer to the issue -- you just need to figure out how to get the code to make that correct answer happen. This process of *reverse engineering* can be very helpful in debugging and understanding code in general. 
+
+Testing in Swift is done via the `XCTest` framework, and this project has a simple example of how testing works (`Tableviews_Part_1Tests.swift`). There are a few points that are important to remember: 
+- Testing is run separately from Building and Running (meaning, your project can Run but still not pass its tests)
+- Testing is started with Product > Test or with Cmd+U
+- All functions in a test begin with the word "test" followed by a description of what the function will be testing
+- It is important that test functions describe very well what they test, and that the failure messages will help you debug the problem
+- A test can be written incorrectly, just like any other piece of code! 
+
+Otherwise, a test class and its functions are like any other class/function in Swift! 
+
+---
+
+##### 3. Models and Tests
+
+Fortunately for us, another member of our developer team working on the Reel Good project wrote out some tests on our models, `Movie` and `Actor`. Unfortunately... they didn't stage their changes in git for the actual parsing code for the model class. Not only that, they didn't save their local changes either! 
+
+What this means, is that we're going to have to reverse engineer a solution to parsing our data based on the tests that they had written. 
