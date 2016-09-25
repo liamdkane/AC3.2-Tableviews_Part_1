@@ -14,7 +14,7 @@ class MovieTableViewController: UITableViewController, UIPickerViewDelegate {
     var delegate: UIPickerViewDelegate?
     var dataSource: UIPickerViewDataSource?
     
-    var filterBy = ["Genre", "Century"]
+    var filterBy = ["Genre", "Century", "Alphabetical"]
     
     var row = 0
     
@@ -37,11 +37,6 @@ class MovieTableViewController: UITableViewController, UIPickerViewDelegate {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
-        
-        
-        
-        //delegate.
         
         self.title = "Movies"
         self.tableView.backgroundColor = UIColor.blue
@@ -76,11 +71,13 @@ class MovieTableViewController: UITableViewController, UIPickerViewDelegate {
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
         self.row = row
-        
+
         switch row {
         case 0:
             tableView.reloadData()
         case 1:
+            tableView.reloadData()
+        case 2:
             tableView.reloadData()
         default:
             break
@@ -95,6 +92,8 @@ class MovieTableViewController: UITableViewController, UIPickerViewDelegate {
             return 3
         case 1:
             return 2
+        case 2:
+            return 1
         default:
             return 0
         }
@@ -108,8 +107,9 @@ class MovieTableViewController: UITableViewController, UIPickerViewDelegate {
                 else {
                     return 0
             }
-            
+            print(data.count)
             return data.count
+            
         case 1:
             guard let year = Century.init(rawValue: section), let data2 = byYear(year)
                 else {
@@ -117,6 +117,10 @@ class MovieTableViewController: UITableViewController, UIPickerViewDelegate {
             }
             
             return data2.count
+        case 2:
+            guard let data = movieData else {return 0}
+            
+            return data.count
         default:
             return 0
         }
@@ -146,19 +150,23 @@ class MovieTableViewController: UITableViewController, UIPickerViewDelegate {
             cell.detailTextLabel?.text = String(data[indexPath.row].year)
             
             return cell
+        case 2:
+            let data = byName(movies: movieData)
             
+            cell.textLabel?.text = data[indexPath.row].title
+            cell.detailTextLabel?.text = String(data[indexPath.row].year)
+            
+            return cell
         default:
             return cell
         }
     }
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-        guard let genre = Genre.init(rawValue: section), let century = Century.init(rawValue: section) else { return "" }
-        
         
         switch row {
         case 0:
-            
+            guard let genre = Genre.init(rawValue: section) else { return "" }
             switch genre {
             case .action:
                 return "Action"
@@ -167,14 +175,18 @@ class MovieTableViewController: UITableViewController, UIPickerViewDelegate {
             case .drama:
                 return "Drama"
             }
-        case 1:
             
+        case 1:
+            guard let century = Century.init(rawValue: section) else { return "" }
             switch century {
             case .twentyCentury:
                 return "20th Century"
             case .twentyFirstCentury:
                 return "21st Century"
             }
+            
+        case 2:
+            return "This was fun to learn"
         default:
             return ""
         }
@@ -224,5 +236,8 @@ class MovieTableViewController: UITableViewController, UIPickerViewDelegate {
         return filtered
     }
     
+    func byName(movies: [Movie]?) -> [Movie] {
+        return movies!.sorted(by: {$0.title < $1.title})
+    }
     
 }

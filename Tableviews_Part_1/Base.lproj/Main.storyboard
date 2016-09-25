@@ -52,13 +52,7 @@
                             <outlet property="delegate" destination="yet-gM-qc3" id="XBu-Bk-Pre"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Movies" id="gWo-Yo-CxC">
-                        <barButtonItem key="rightBarButtonItem" title="Switch" id="NRa-aS-bfj">
-                            <connections>
-                                <action selector="toggleFilter:" destination="yet-gM-qc3" id="wAl-I9-mhb"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Movies" id="gWo-Yo-CxC"/>
                     <connections>
                         <outlet property="filterByWhatchuWhatchuWaaant" destination="6zL-Ip-b6e" id="7f0-xz-lGv"/>
                     </connections>
