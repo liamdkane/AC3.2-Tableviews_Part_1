@@ -8,9 +8,15 @@
 
 import UIKit
 
-class MovieTableViewController: UITableViewController {
+class MovieTableViewController: UITableViewController, UIPickerViewDelegate {
     
-    var filterByGenre = true
+    @IBOutlet weak var filterByWhatchuWhatchuWaaant: UIPickerView!
+    var delegate: UIPickerViewDelegate?
+    var dataSource: UIPickerViewDataSource?
+    
+    var filterBy = ["Genre", "Century"]
+    
+    var row = 0
     
     enum Genre: Int {
         case animation
@@ -29,7 +35,13 @@ class MovieTableViewController: UITableViewController {
     let cellIdentifier: String = "MovieTableViewCell"
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        
+        
+        
+        
+        //delegate.
         
         self.title = "Movies"
         self.tableView.backgroundColor = UIColor.blue
@@ -44,83 +56,132 @@ class MovieTableViewController: UITableViewController {
     }
     
     
+    
+    // MARK: - Picker view data source
+    
+    //I used a picker view so that I could easily go back and add more categories to filter by. It also allows the user to pick exactly what they want to filter by
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return filterBy.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return filterBy[row]
+    }
+    
+    public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
+        self.row = row
+        
+        switch row {
+        case 0:
+            tableView.reloadData()
+        case 1:
+            tableView.reloadData()
+        default:
+            break
+        }
+    }
+    
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        if filterByGenre {
+        switch row {
+        case 0:
             return 3
-        } else {
+        case 1:
             return 2
+        default:
+            return 0
         }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if filterByGenre {
-        guard let genre = Genre.init(rawValue: section), let data = byGenre(genre)
-            else {
-                return 0
+        switch row {
+        case 0:
+            guard let genre = Genre.init(rawValue: section), let data = byGenre(genre)
+                else {
+                    return 0
+            }
+            
+            return data.count
+        case 1:
+            guard let year = Century.init(rawValue: section), let data2 = byYear(year)
+                else {
+                    return 0
+            }
+            
+            return data2.count
+        default:
+            return 0
         }
         
-        return data.count
-        }
-        guard let year = Century.init(rawValue: section), let data2 = byYear(year)
-            else {
-                return 0
-        }
         
-        return data2.count
-
+        
+        
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
         
-        if filterByGenre {
-        guard let genre = Genre.init(rawValue: indexPath.section), let data = byGenre(genre)
-            else {
-                return cell
-            }
+        switch row {
+        case 0:
+            guard let genre = Genre.init(rawValue: indexPath.section), let data = byGenre(genre) else {return cell}
+            
             cell.textLabel?.text = data[indexPath.row].title
             cell.detailTextLabel?.text = String(data[indexPath.row].year)
             
             return cell
+            
+        case 1:
+            guard let year = Century.init(rawValue: indexPath.section), let data = byYear(year) else {return cell}
+            
+            cell.textLabel?.text = data[indexPath.row].title
+            cell.detailTextLabel?.text = String(data[indexPath.row].year)
+            
+            return cell
+            
+        default:
+            return cell
         }
-        guard let year = Century.init(rawValue: indexPath.section), let data = byYear(year)
-            else {
-                return cell
-        }
-        
-        cell.textLabel?.text = data[indexPath.row].title
-        cell.detailTextLabel?.text = String(data[indexPath.row].year)
-        
-        return cell
     }
-    
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-        if filterByGenre {
-        guard let genre = Genre.init(rawValue: section) else { return "" }
+        guard let genre = Genre.init(rawValue: section), let century = Century.init(rawValue: section) else { return "" }
         
-        switch genre {
-        case .action:
-            return "Action"
-        case .animation:
-            return "Animation"
-        case .drama:
-            return "Drama"
-        }
-        }
-        guard let century = Century.init(rawValue: section) else { return "" }
         
-        switch century {
-        case .twentyCentury:
-            return "20th Century"
-        case .twentyFirstCentury:
-            return "21st Century"
+        switch row {
+        case 0:
+            
+            switch genre {
+            case .action:
+                return "Action"
+            case .animation:
+                return "Animation"
+            case .drama:
+                return "Drama"
+            }
+        case 1:
+            
+            switch century {
+            case .twentyCentury:
+                return "20th Century"
+            case .twentyFirstCentury:
+                return "21st Century"
+            }
+        default:
+            return ""
         }
     }
+    
+    
+    
     
     func byGenre(_ genre: Genre) -> [Movie]? {
         let filter: (Movie) -> Bool
@@ -163,19 +224,5 @@ class MovieTableViewController: UITableViewController {
         return filtered
     }
     
-    //I would ideally like to use a drop down menu with options on what to pick
-    
-    @IBAction func toggleFilter(_ sender: UIBarButtonItem) {
-        
-        
-        if filterByGenre {
-            filterByGenre = false
-        } else {
-            filterByGenre = true
-        }
-        
-        
-        tableView.reloadData()        
-    }
     
 }
